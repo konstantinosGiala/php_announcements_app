@@ -1,2 +1,2 @@
-# php_test
+# php_api
 announcements_app
