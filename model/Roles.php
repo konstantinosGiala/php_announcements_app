@@ -49,25 +49,25 @@ class Roles {
                         ],
                     ]);
                 if (count($result)>0):
-                    return $this->generalFunctions->returnValue($result,'true');
+                    return $this->generalFunctions->returnValue($result,true);
                 else:
-                    return $this->generalFunctions->returnValue("Problem in Roles: query is empty",'false');
+                    return $this->generalFunctions->returnValue("Problem in Roles: query is empty",false);
                 endif;
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in findOne roles \n".$e);
-                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in findOne roles \n".$e);
-                return $this->generalFunctions->returnValue("Problem in model Roles: ".$e,'false');
+                return $this->generalFunctions->returnValue("Problem in model Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in findOne roles \n".$e);
-                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             };
         } else 
-            return $this->generalFunctions->returnValue("Problem in Roles: no id received",'false'); 
+            return $this->generalFunctions->returnValue("Problem in Roles: no id received",false); 
     }
 
     public function createRoles($data) {
@@ -91,24 +91,24 @@ class Roles {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->generalFunctions->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("Role created",true);
                 else 
-                    return $this->generalFunctions->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("Problem in Roles: no role created",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in insert roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in insert roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in insert roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             };
         } else 
-            return $this->generalFunctions->returnValue("",'false');
+            return $this->generalFunctions->returnValue("Problem in Roles no id, permission or authorizations found",false);
     }
 
     
@@ -126,28 +126,28 @@ class Roles {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->generalFunctions->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("Role deleted",true);
                 else 
-                    return $this->generalFunctions->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("Problem in deleting role",false);
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in delete roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in delete roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in delete roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in delete roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             };
         } else 
-            return $this->generalFunctions->returnValue("",'false');
+            return $this->generalFunctions->returnValue("Problem in Role no id or roleid found",false);
     }
 
     
@@ -171,24 +171,24 @@ class Roles {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->generalFunctions->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("Role updated",true);
                 else 
-                    return $this->generalFunctions->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("Problem in updating role",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in update roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in update roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in update roles \n".$e);
-                return $this->generalFunctions->returnValue("",'false');
+                return $this->generalFunctions->returnValue("Problem in Roles: ".$e,false);
             };
         } else 
-            return $this->generalFunctions->returnValue("",'false');    
+            return $this->generalFunctions->returnValue("Problem in Role no id or roleid found",false);    
     }
 }
 ?>

@@ -9,10 +9,13 @@ class Categories {
 
     protected $collection;
 
+    protected $generalFunctions; 
+
     public function __construct($connection) {
         try {
             $this->collection = $connection->connect_to_department();
             error_log("Connection to collection Department");
+            $this->generalFunctions = new GeneralFunctions();
         }
         catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
             error_log("Problem in connection with collection Department".$e);
@@ -46,25 +49,25 @@ class Categories {
                         ],
                     ]);
                 if (count($result)>0):
-                    return $this->returnValue($result,'true');
+                    return $this->generalFunctions->returnValue($result,true);
                 else:
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
                 endif;
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in findOne categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in findOne categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in findOne categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
         } else 
-            return $this->returnValue("",'false'); 
+            return $this->generalFunctions->returnValue("",false); 
     }
 
    
@@ -75,7 +78,7 @@ class Categories {
         if( isset( $identifier ) && isset($name) && isset($subdepartment_id) ) {
             try {
                 $result = $this->collection->updateOne( 
-                    [ 'identifier'=>$identifier ],
+                    [ 'identifier'=>intval($identifier) ],
                     [ 
                         '$push' => [
                             'categories' => [
@@ -87,24 +90,24 @@ class Categories {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                        return $this->returnValue("",'true');
+                        return $this->generalFunctions->returnValue("",true);
                     else 
-                        return $this->returnValue("",'false');
+                        return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in insert categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in insert categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in insert categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else 
-            return $this->returnValue('false');
+            return $this->generalFunctions->returnValue(false);
     }
 
    
@@ -122,28 +125,28 @@ class Categories {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("",true);
                 else 
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in delete categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in delete categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in delete categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in delete categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else
-            return $this->returnValue("",'false');    
+            return $this->generalFunctions->returnValue("",false);    
     }
 
     
@@ -162,35 +165,24 @@ class Categories {
                     [ '$set' => [ 'categories.$.name' => $name ]]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("",true);
                 else 
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in update categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in update categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in update categories \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else
-            return $this->returnValue("",'false');
-    }
-
-    private function returnValue($result, $value){
-        if ($value==='true')
-            return json_encode(array(
-                'data' => json_encode($result),
-                'success' => true
-                )
-            );
-        else 
-            return json_encode(array('success' => false));
+            return $this->generalFunctions->returnValue("",false);
     }
 }
 ?>

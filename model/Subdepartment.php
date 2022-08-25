@@ -7,10 +7,13 @@ class Subdepartment {
 
     protected $collection;
 
+    protected $generalFunctions;
+
     public function __construct($connection) {
         try {
             $this->collection = $connection->connect_to_department();
             error_log("Connection to collection Department");
+            $this->generalFunctions = new GeneralFunctions();
         }
         catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
             error_log("Problem in connection with collection Department".$e);
@@ -44,25 +47,25 @@ class Subdepartment {
                         ],
                     ]);
                 if (count($result)>0):
-                    return $this->returnValue($result, 'true');
+                    return $this->generalFunctions->returnValue($result, true);
                 else:
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
                 endif;
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in findOne subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in findOne subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in findOne subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else 
-            return $this->returnValue("",'false'); 
+            return $this->generalFunctions->returnValue("",false); 
     }
 
     public function createSubdepartment($data) {
@@ -71,7 +74,7 @@ class Subdepartment {
         if( isset( $identifier ) && isset($name)) {
             try {
                 $result = $this->collection->updateOne( 
-                    [ 'identifier'=>$identifier ],
+                    [ 'identifier'=>intval($identifier) ],
                     [ 
                         '$push' => [
                             'subdepartment' => [
@@ -82,24 +85,24 @@ class Subdepartment {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("",true);
                 else 
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in insert subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in insert subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in insert subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else 
-            return $this->returnValue('false');
+            return $this->generalFunctions->returnValue(false);
 
     }
 
@@ -117,28 +120,28 @@ class Subdepartment {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("",true);
                 else 
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in delete subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in delete subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in delete subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in delete subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else 
-            return $this->returnValue("",'false');
+            return $this->generalFunctions->returnValue("",false);
     }
 
     public function updateSubdepartment($data) {
@@ -156,28 +159,28 @@ class Subdepartment {
                     [ '$set' => [ 'subdepartment.$.name' => $name ]]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("",true);
                 else 
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in update subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in update subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in update subdepartment \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else 
-            return $this->returnValue("",'false');
+            return $this->generalFunctions->returnValue("",false);
     }
 
     private function returnValue($result, $value){
-        if ($value==='true')
+        if ($value===true)
             return json_encode(array(
                 'data' => json_encode($result),
                 'success' => true

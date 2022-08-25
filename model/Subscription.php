@@ -9,10 +9,13 @@ class Subscription {
 
     protected $collection;
 
+    protected $generalFunctions;
+
     public function __construct($connection) {
         try {
             $this->collection = $connection->connect_to_user();
             error_log("Connection to collection User");
+            $this->generalFunctions = new GeneralFunctions();
         }
         catch (MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
             error_log("Problem in connection with collection User".$e);
@@ -45,19 +48,26 @@ class Subscription {
                             'subscription' => 1
                         ],
                     ]);
-                return $result;
+                if ($result):
+                    return $this->generalFunctions->returnValue($result, true);
+                else:
+                    return $this->generalFunctions->returnValue("", false);
+                endif;
             }
             catch (MongoDB\Exception\UnsupportedException $e){
                 error_log("Problem in findOne subscription \n".$e);
+                return $this->generalFunctions->returnValue("Problem in model subscription: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in findOne subscription \n".$e);
+                return $this->generalFunctions->returnValue("Problem in model subscription: ".$e,false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in findOne subscription \n".$e);
+                return $this->generalFunctions->returnValue("Problem in model subscription: ".$e,false);
             };
         } else 
-            return $this->returnValue('false'); 
+            return $this->generalFunctions->returnValue("Problem in model subscription: ".$e,false);
     }
 
     
@@ -75,35 +85,24 @@ class Subscription {
                     ]
                 );
                 if ($result->getModifiedCount()==1)
-                    return $this->returnValue("",'true');
+                    return $this->generalFunctions->returnValue("",true);
                 else 
-                    return $this->returnValue("",'false');
+                    return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\InvalidArgumentException $e){
                 error_log("Problem in insert subscription \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\BulkWriteException $e){
                 error_log("Problem in insert subscription \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             }
             catch (MongoDB\Driver\Exception\RuntimeException $e){
                 error_log("Problem in insert subscription \n".$e);
-                return $this->returnValue("",'false');
+                return $this->generalFunctions->returnValue("",false);
             };
         } else 
-            return $this->returnValue("",'false');
-    }
-
-    private function returnValue($result, $value){
-        if ($value==='true')
-            return json_encode(array(
-                'data' => json_encode($result),
-                'success' => true
-                )
-            );
-        else 
-            return json_encode(array('success' => false));
+            return $this->generalFunctions->returnValue("",false);
     }
 }
 ?>
