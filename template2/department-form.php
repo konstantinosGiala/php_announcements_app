@@ -94,7 +94,6 @@
     <div class="container mt-4">
         <h2>Εισαγωγή νέας διεύθυνσης</h2>
 
-        
         <?php 
             if (!empty($alert)) {
         ?>
@@ -103,14 +102,11 @@
             </div>
         <?php
             }
-        ?>
-        
+        ?> 
 
         <p><span class="text-danger">* required field</span></p>
         
         <!-- <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> -->
-        
-       
 
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="mb-3">

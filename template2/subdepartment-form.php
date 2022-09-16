@@ -59,10 +59,21 @@
 
 <?php include 'header.php'; ?>
     <div class="container mt-4">   
-
         <h2>Εισαγωγή νέου Subdepartment</h2>
-        <!-- <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> -->
+
+        <?php 
+            if (!empty($alert)) {
+        ?>
+            <div class="alert alert-danger" role="alert">
+                <?php  print_r($alert); ?> 
+            </div>
+        <?php
+            }
+        ?>
+
         <p><span class="text-danger">* required field</span></p>
+
+        <!-- <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> -->
            
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="mb-3">
@@ -113,6 +124,6 @@
                 }
             ?>
         </table>
-
     </div>
+    
 <?php include 'footer.php'; ?>

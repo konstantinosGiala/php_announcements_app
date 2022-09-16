@@ -323,15 +323,5 @@ class Department {
             return $this->generalFunctions->returnValue("",false);
     }
 
-    private function returnValue($result, $value){
-        if ($value==='true')
-            return json_encode(array(
-                'data' => json_encode($result),
-                'success' => true
-                )
-            );
-        else 
-            return json_encode(array('success' => false));
-    }
 }
 ?>

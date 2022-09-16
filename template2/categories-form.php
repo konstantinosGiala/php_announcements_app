@@ -75,11 +75,9 @@
 
 <?php include 'header.php'; ?>
     <div class="container mt-4">  
-
         <h2>Εισαγωγή νέου Category</h2>
         <!-- <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> -->
-        <p><span class="error">* required field</span></p>
-        
+
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="mb-3">
                 <label for="frmDepartment" class="form-label">Επιλέξτε Διεύθυνση</label>
@@ -117,7 +115,6 @@
                 <th>Αναγνωριστικό</th>
                 <th>Τμήματα</th>
                 <th>Κατηγορίες</th>
-                <th>Διαδικασίες</th>
             </tr>
             <?php
                 foreach($allDepartments as $value) {
@@ -134,15 +131,6 @@
                                 echo $cvalue['name']."<br>";
                             }
                         echo '</td>';
-                        echo "<td>";
-                ?>
-                        <button class="btn btn-primary" onclick="loadform(<?php echo '\''.$value['_id']['$oid'].'\',\''.$value['name'].'\',\''.$value['identifier'].'\''?>)">Update</button>
-                        <form method="delete" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                            <input type="hidden" name="id" value="<?php echo $value['_id']['$oid']; ?>">
-                            <input class="btn btn-danger" type="submit" name="submit" value="Delete">
-                        </form>
-                <?php            
-                        echo "</td>";
                     echo '</tr>';
                 }
             ?>
