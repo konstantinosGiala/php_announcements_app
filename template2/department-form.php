@@ -1,6 +1,14 @@
 <?php include 'header-script.php'; ?>
 
 <?php
+
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     function saveDepartment($data){
         global $department;
 

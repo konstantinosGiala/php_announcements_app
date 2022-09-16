@@ -297,7 +297,7 @@ class Department {
                 $result = $this->collection->updateOne( 
                     [ '_id' => new MongoDB\BSON\ObjectId($id) ],
                     [ '$set' => [
-                            'identifier' => $identifier,
+                            'identifier' => intval($identifier),
                             'name' => $name 
                         ]
                     ]

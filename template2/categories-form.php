@@ -76,6 +76,19 @@
 <?php include 'header.php'; ?>
     <div class="container mt-4">  
         <h2>Εισαγωγή νέου Category</h2>
+
+        <?php 
+            if (!empty($alert)) {
+        ?>
+            <div class="alert alert-danger" role="alert">
+                <?php  print_r($alert); ?> 
+            </div>
+        <?php
+            }
+        ?>
+
+        <p><span class="text-danger">* required field</span></p>
+        
         <!-- <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?> -->
 
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
@@ -96,7 +109,7 @@
                 <select name="frmSubdepartment" id="frmSubdepartment">
                     <option value="" default>Επιλέξτε Τμήμα</option>
                 </select>
-                <span class="error">* <?php echo $frmSubdepartmentErr;?></span>
+                <span class="text-danger">* <?php echo $frmSubdepartmentErr;?></span>
             </div>
             <div class="mb-3 form-check">
                 <label for="frmCategories" class="form-label">Name</label>

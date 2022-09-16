@@ -10,7 +10,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="http://localhost/template2">AUEB</a>
+                <a class="navbar-brand" href="index.php">AUEB</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -21,10 +21,10 @@
                                 Χρήστες
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Χρήστες</a></li>
-                                <li><a class="dropdown-item" href="#">Ρόλοι</a></li>
+                                <li><a class="dropdown-item" href="user-form.php">Χρήστες</a></li>
+                                <li><a class="dropdown-item" href="user-role-form.php">Ρόλοι</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Κατηγορία Χρηστών</a></li>
+                                <li><a class="dropdown-item" href="user-category-form.php">Κατηγορία Χρηστών</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -43,8 +43,8 @@
                                 Ανακοινώσεις
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Ανακοινώσεις</a></li>
-                                <li><a class="dropdown-item" href="#">Εγγραφή σε λίστα</a></li>
+                                <li><a class="dropdown-item" href="announcements-form.php">Ανακοινώσεις</a></li>
+                                <li><a class="dropdown-item" href="subscription-form.php">Εγγραφή σε λίστα</a></li>
                             </ul>
                         </li>
                     </ul>

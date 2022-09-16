@@ -11,8 +11,25 @@
     function saveSubdepartment($data){
         global $subdepartment;
         
-        $data = json_decode(json_encode($data));
-        $result = $subdepartment->createSubdepartment($data);
+        $datatosave = json_decode(json_encode($data));
+        $result = $subdepartment->createSubdepartment($datatosave);
+        return $result;
+    }
+
+    function updateSubdepartment($data){
+        global $subdepartment;
+
+        $datatosave = json_decode(json_encode($data));
+        $result = $subdepartment->updateSubdepartment($datatosave);
+        return $result;
+    }
+
+    function deleteSubdepartment($data){
+        global $subdepartment;
+        $identifier = $data->identifier;
+        $id = $data->_id;
+
+        $result = $subdepartment->deleteSubdepartment($identifier,$id);
         return $result;
     }
 
@@ -23,14 +40,20 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // echo $_POST["name"].",".$_POST["identifier"];
-         
+        
+        if (empty($_POST['id'])){
+            $update = false;
+        } else {
+            $update = true;
+        }
+
         if (empty($_POST["name"])) {
             $nameErr = "Name is required";
         } else {
             $name = test_input($_POST["name"]);
             // check if name only contains letters and whitespace or Greek letters
             if (!preg_match("/^[a-zA-Z\p{Greek}\s]+$/u",$name)) {
-            $nameErr = "Only letters and white space allowed";
+                $nameErr = "Only letters and white space allowed";
             }
         }
          
@@ -40,17 +63,42 @@
             $identifier = test_input($_POST["identifier"]);
             // check if identifier is number
             if (!is_numeric($identifier)) {
-            $identifierErr = "Invalid identifier format";
+                $identifierErr = "Invalid identifier format";
             }
         }
 
         if (empty($identifierErr) && empty($nameErr)){
-            $data = array(
-                'identifier' => $identifier,
-                'name' => $name
-            );
-            $result = saveSubdepartment($data);
+
+            if ($update){
+                $data = array(
+                    '_id' => $_POST['id'],
+                    'identifier' => $_POST["identifier"],
+                    'name' => $_POST["name"]
+                );
+                $result = updateSubepartment($data);
+            } else {
+                $data = array(
+                    'identifier' => $identifier,
+                    'name' => $name
+                );
+                $result = saveSubdepartment($data);
+                $result = json_decode($result, true);
+                if (!$result['success']){
+                    $alert = trim($result['data'],'"');
+                } else {
+                    $alert = "";
+                } 
+            }
         }
+    }
+
+    if ($_SERVER["REQUEST_METHOD"]=="GET"){
+
+        if (isset($_GET['id']) && !empty($_GET['id'])){
+            $id = $_GET['id'];
+            $result = deleteSubdepartment($id);
+        }
+            
     }
 
     $allDepartments = json_decode($department->showDepartments(),true);
@@ -79,14 +127,14 @@
             <div class="mb-3">
                 <label for="identifier" class="form-label">Identifier</label>
                 <select name="identifier" id="identifier">
-                <option value="" default>Επιλέξτε Διεύθυνση</option>
-                <?php 
-                    foreach($allDepartments as $value) {
-                        echo '<option value="'.$value['identifier'].'">'.$value['name']."</option>";
-                    } 
-                ?>
-            </select>
-            <span class="text-danger">* <?php echo $identifierErr;?></span>
+                    <option value="" default>Επιλέξτε Διεύθυνση</option>
+                    <?php 
+                        foreach($allDepartments as $value) {
+                            echo '<option value="'.$value['identifier'].'">'.$value['name']."</option>";
+                        } 
+                    ?>
+                </select>
+                <span class="text-danger">* <?php echo $identifierErr;?></span>
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
