@@ -139,7 +139,7 @@
                 <th>Αναγνωριστικό</th>
                 <th>Τμήματα</th>
                 <th>Κατηγορίες</th>
-                <th>Διαδικασίες</th>
+                <th>Διαδικασίεςwwwwwwwwww</th>
             </tr>
             <?php
                 foreach ($showResults as $value){
